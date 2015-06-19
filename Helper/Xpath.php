@@ -11,13 +11,18 @@ namespace EzSystems\BehatBundle\Helper;
 
 use Behat\Mink\Session;
 use PHPUnit_Framework_Assert as Assertion;
+use Behat\Mink\Selector\Xpath\Escaper;
 
 /**
- * This class eases the xpath creation and handling also has methods to easy search for certain 
- * content
+ * This class eases the xpath creation and handling also has methods to easy search for certain content
  */
 class Xpath
 {
+    /**
+     * @var \Behat\Mink\Selector\Xpath\Escaper $escaper
+     */
+    protected $escaper;
+
     /**
      * Initialize class
      *
@@ -26,6 +31,7 @@ class Xpath
     public function __construct( Session $session )
     {
         $this->session = $session;
+        $this->escaper = new Escaper();
     }
 
      /**
@@ -36,7 +42,7 @@ class Xpath
      */
     public function literal( $text )
     {
-        return $this->session->getSelectorsHandler()->xpathLiteral( $text );
+        return $this->escaper->escapeLiteral( $text );
     }
 
     /**
